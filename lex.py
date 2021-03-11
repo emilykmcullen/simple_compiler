@@ -87,13 +87,30 @@ class Lexer:
 
             while self.curChar != '\"':
                 # Don't allow special characters in the string. No escape characters, newlines, tabs, or %.
-                # We will be using C's printf on this string.
                 if self.curChar == '\r' or self.curChar == '\n' or self.curChar == '\t' or self.curChar == '\\' or self.curChar == '%':
                     self.abort("Illegal character in string.")
                 self.nextChar()
 
             tokText = self.source[startPos : self.curPos] # Get the substring.
             token = Token(tokText, TokenType.STRING)
+        elif self.curChar.isdigit():
+            # Leading character is a digit, so this must be a number.
+            # Get all consecutive digits and decimal if there is one.
+            startPos = self.curPos
+            while self.peek().isdigit():
+                self.nextChar()
+            if self.peek() == '.': # Decimal!
+                self.nextChar()
+
+                # Must have at least one digit after decimal.
+                if not self.peek().isdigit(): 
+                    # Error!
+                    self.abort("Illegal character in number.")
+                while self.peek().isdigit():
+                    self.nextChar()
+
+            tokText = self.source[startPos : self.curPos + 1] # Get the substring.
+            token = Token(tokText, TokenType.NUMBER)
         elif self.curChar == '\n':
             token = Token(self.curChar, TokenType.NEWLINE)
         elif self.curChar == '\0':
