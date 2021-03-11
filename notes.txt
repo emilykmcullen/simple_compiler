@@ -1,0 +1,21 @@
+Main lexer rules for the Teeny Tiny language:
+
+OPERATOR
+One or two consecutive characters that matches: + - * / = == != > < >= <=
+
+
+STRING
+Double quotation followed by zero or more characters and a double quotation. Such as: "hello, world!" and ""
+
+
+NUMBER 
+One or more numeric characters followed by an optional decimal point and one or more numeric characters.
+Such as: 15 and 3.14
+
+
+IDENTIFIER
+An alphabetical character followed by zero or more alphanumeric characters.
+
+
+KEYWORD
+Exact text match of: LABEL, GOTO, PRINT, INPUT, LET, IF, THEN, ENDIF, WHILE, REPEAT, ENDWHILE
