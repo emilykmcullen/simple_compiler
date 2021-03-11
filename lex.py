@@ -25,7 +25,8 @@ class Lexer:
         sys.exit("Lexing error. " + message)
 		
     def skipWhitespace(self):
-        pass
+        while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
+            self.nextChar()
 		
    
     def skipComment(self):
@@ -33,6 +34,7 @@ class Lexer:
 
     # Return the next token.
     def getToken(self):
+        self.skipWhitespace()
         token = None
         # Check the 1st character of this token
         # If it's a multiple character operator (eg. !=), number, identifier, or keyword then we will process the rest
