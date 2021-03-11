@@ -1,4 +1,5 @@
 import enum
+import sys
 
 class Lexer:
     def __init__(self, input):
@@ -19,8 +20,9 @@ class Lexer:
             return '\0'
         return self.source[self.curPos+1]
 
+    # Invalid token found, print error message and exit.
     def abort(self, message):
-        pass
+        sys.exit("Lexing error. " + message)
 		
     def skipWhitespace(self):
         pass
@@ -31,23 +33,25 @@ class Lexer:
 
     # Return the next token.
     def getToken(self):
+        token = None
         # Check the 1st character of this token
         # If it's a multiple character operator (eg. !=), number, identifier, or keyword then we will process the rest
         if self.curChar == '+':
-            pass
+            token = Token(self.curChar, TokenType.PLUS)
         elif self.curChar == '-':
-            pass
+            token = Token(self.curChar, TokenType.MINUS)
         elif self.curChar == '*':
-            pass
+            token = Token(self.curChar, TokenType.ASTERISK)
         elif self.curChar == '/':
-            pass
+            token = Token(self.curChar, TokenType.SLASH)
         elif self.curChar == '\n':
-            pass
+            token = Token(self.curChar, TokenType.NEWLINE)
         elif self.curChar == '\0':
-            pass
+            token = Token('', TokenType.EOF)
         else:
-            pass
+            self.abort("Unknown token: " + self.curChar)
         self.nextChar()
+        return token
 
 
 
